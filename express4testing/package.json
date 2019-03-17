@@ -1,0 +1,26 @@
+{
+  "name": "express4testing",
+  "version": "1.0.0",
+  "description": "This is for testing express examples with students",
+  "main": "model.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "node --inspect server",
+    "dev": "nodemon server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.8.2",
+    "sequelize": "^5.1.0"
+  }
+}
