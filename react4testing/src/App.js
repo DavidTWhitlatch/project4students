@@ -44,6 +44,7 @@ class App extends Component {
     this.getFlavors = this.getFlavors.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.handleRegister = this.handleRegister.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.setFoodForm = this.setFoodForm.bind(this)
     this.flavorForm = this.flavorForm.bind(this)
@@ -155,6 +156,13 @@ class App extends Component {
     this.handleLogin(registerData)
   }
 
+  handleLogout() {
+    localStorage.removeItem("jwt");
+    this.setState({
+      currentUser: null
+    })
+  }
+
   // handle change function for our create food form
   handleChange(e) {
     const { name, value } = e.target;
@@ -181,7 +189,7 @@ class App extends Component {
     return (
       <div>
         <header>
-          <h1>TasteVille</h1>
+          <Link to="/"><h1>TasteVille</h1></Link>
           {/* Here we use a terinary to check if there is a logged in user set in state.
               If there is no logged in user, we show a login button instead of the site nav */}
           {this.state.currentUser
@@ -189,10 +197,11 @@ class App extends Component {
             <div>
               {/* This is a greeting to the user if there user info has been set in state.
               We use the guard operator to check '&&' */}
-              <h3>Hi {this.state.currentUser && this.state.currentUser.username}</h3>
+              <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>logout</button></h3>
               <Link to="/food">View All Food</Link>
               &nbsp;
               <Link to="/flavors">View All Flavors</Link>
+              <hr />
             </div>
             :
             <button onClick={this.handleLoginButton}>Login/register</button>

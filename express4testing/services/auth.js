@@ -25,9 +25,8 @@ const checkPassword = async (password, password_digest) => {
   return await bcrypt.compare(password, password_digest);
 }
 
-// We didnt end up using any restricted paths in this app
-// We could've added them to the .post .put and .delete requests
-// Then we need to add the users token to the request headers on the front end, example { Authorization: `Bearer ${token}`}
+// We added restricted paths to the .post .put and .delete requests
+// Then we add the users token to the request headers on the front end, example { Authorization: `Bearer ${token}`}
 const restrict = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];

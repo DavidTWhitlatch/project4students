@@ -1,5 +1,6 @@
 const express = require('express');
 const { Food, Flavor } = require('../models')
+const { restrict } = require('../services/auth');
 const foodRouter = express.Router();
 
 // Using the '.route' syntax, we can define multiple request methods for the same endpoint
@@ -18,7 +19,7 @@ foodRouter.route('/')
     }
   })
   // Creating a new food item using the body of the request. returning the newly created item.
-  .post(async (req, res, next) => {
+  .post(restrict, async (req, res, next) => {
     try {
       const newFood = await Food.create(req.body)
       res.json(newFood.get())
@@ -42,7 +43,7 @@ foodRouter.route('/:id')
     }
   })
   // Updating a food item and returning the newly updated item
-  .put(async (req, res, next) => {
+  .put(restrict, async (req, res, next) => {
     try {
       const foodItem = await Food.findByPk(req.params.id);
       foodItem.update(req.body);
@@ -53,7 +54,7 @@ foodRouter.route('/:id')
   })
   // Deleting a food item. Don't forget to send a response.
   // I like to include the ID of the item deleted
-  .delete(async (req, res, next) => {
+  .delete(restrict, async (req, res, next) => {
     try {
       const foodItem = await Food.findByPk(req.params.id);
       foodItem.destroy();
@@ -74,7 +75,7 @@ foodRouter.route('/:id')
 // The setFlavors method returns data from the join table which is not what we want to return from this middleware function for this app
 // in the res.json, we rebuild the single food item and include the flavors 
 foodRouter.route('/:food_id/flavors/:id')
-  .put(async (req, res, next) => {
+  .put(restrict, async (req, res, next) => {
     try {
       const food = await Food.findByPk(req.params.food_id);
       const prevFlavors = await food.getFlavors();

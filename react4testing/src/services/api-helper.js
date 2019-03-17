@@ -29,21 +29,21 @@ export const showFoodItem = async (id) => {
 }
 
 export const postFood = async (item) => {
-  const resp = await api.post(`/food`, item)
+  const resp = await api.post(`/food`, item, { headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` } })
   return resp.data
 }
 
 export const putFood = async (item, id) => {
-  const resp = await api.put(`/food/${id}`, item)
+  const resp = await api.put(`/food/${id}`, item, { headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` } }, item)
   return resp.data
 }
 export const destroyFood = async (id) => {
-  const resp = await api.delete(`/food/${id}`);
+  const resp = await api.delete(`/food/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` } });
   return resp.data;
 }
 
 export const putFoodFlavor = async (food_id, id) => {
-  const resp = await api.put(`/food/${food_id}/flavors/${id}`)
+  const resp = await api.put(`/food/${food_id}/flavors/${id}`, null, { headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` } })
   return resp.data
 }
 
