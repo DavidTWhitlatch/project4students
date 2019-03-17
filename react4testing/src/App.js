@@ -146,8 +146,7 @@ class App extends Component {
 
   // Function to login a user
   // we set the user data in state and the JWT in local storage
-  async handleLogin(e) {
-    e.preventDefault();
+  async handleLogin() {
     const userData = await loginUser(this.state.authFormData);
     this.setState({
       currentUser: userData.user
@@ -160,7 +159,7 @@ class App extends Component {
   async handleRegister(e) {
     e.preventDefault();
     await registerUser(this.state.authFormData);
-    this.handleLogin(e);
+    this.handleLogin();
   }
 
   // Function to logout user
