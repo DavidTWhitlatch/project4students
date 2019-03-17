@@ -33,7 +33,11 @@ class App extends Component {
       formData: {        // Form data for addin a food
         name: ""
       },
-      selectedFlavor: '' // Form data for adding a flavor to a food
+      selectedFlavor: '', // Form data for adding a flavor to a food
+      authFormData: {
+        username: "",
+        password: ""
+      }
     }
     this.handleLoginButton = this.handleLoginButton.bind(this)
     this.getFood = this.getFood.bind(this)
@@ -45,6 +49,7 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this)
     this.handleRegister = this.handleRegister.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+    this.authHandleChange = this.authHandleChange.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.setFoodForm = this.setFoodForm.bind(this)
     this.flavorForm = this.flavorForm.bind(this)
@@ -141,8 +146,9 @@ class App extends Component {
 
   // Function to login a user
   // we set the user data in state and the JWT in local storage
-  async handleLogin(loginData) {
-    const userData = await loginUser(loginData);
+  async handleLogin(e) {
+    e.preventDefault();
+    const userData = await loginUser(this.state.authFormData);
     this.setState({
       currentUser: userData.user
     })
@@ -151,16 +157,30 @@ class App extends Component {
 
   // Function to register a user
   // After register, we just call the login function with the same data
-  async handleRegister(registerData) {
-    await registerUser(registerData);
-    this.handleLogin(registerData)
+  async handleRegister(e) {
+    e.preventDefault();
+    await registerUser(this.state.authFormData);
+    this.handleLogin(e);
   }
 
+  // Function to logout user
+  // We delete the token from local storage and set the current user in state back to null
   handleLogout() {
     localStorage.removeItem("jwt");
     this.setState({
       currentUser: null
     })
+  }
+
+  // Handle change function for the auth forms
+  authHandleChange(e) {
+    const { name, value } = e.target;
+    this.setState(prevState => ({
+      authFormData: {
+        ...prevState.authFormData,
+        [name]: value
+      }
+    }));
   }
 
   // handle change function for our create food form
@@ -209,9 +229,15 @@ class App extends Component {
         </header>
         {/* setting up our routes */}
         <Route exact path="/login" render={(props) => (
-          <Login handleLogin={this.handleLogin} />)} />
+          <Login
+            handleLogin={this.handleLogin}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)} />
         <Route exact path="/register" render={(props) => (
-          <Register handleRegister={this.handleRegister} />)} />
+          <Register
+            handleRegister={this.handleRegister}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)} />
         <Route exact path="/food" render={(props) => (
           <ShowFood
             foods={this.state.food}

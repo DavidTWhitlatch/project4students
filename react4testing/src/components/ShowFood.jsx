@@ -18,22 +18,25 @@ class ShowFood extends Component {
       <div>
         {this.props.foods.map(food => (
           <div key={food.id}>
-          {/* Here is where we user a terinary for the edit form.
+            {/* Here is where we user a terinary for the edit form.
               If the isEdit in state is set to the current food id, then we show an edit form for just that item */}
             {this.state.isEdit === food.id
               ?
               <div>
-                <input
-                  name="name"
-                  type="text"
-                  value={this.props.formData.name}
-                  onChange={this.props.handleChange} />
-                <button onClick={() => {
+                <form onSubmit={(e) => {
+                  e.preventDefault();
                   this.props.updateFood(food);
                   this.setState({
                     isEdit: false
                   });
-                }}>Submit</button>
+                }}>
+                  <input
+                    name="name"
+                    type="text"
+                    value={this.props.formData.name}
+                    onChange={this.props.handleChange} />
+                  <button>Submit</button>
+                </form>
               </div>
               :
               // When the isEdit does not equal the current food id, display the food info like normal
@@ -60,15 +63,18 @@ class ShowFood extends Component {
           // When the 'Add' button is clicked, a create food form is shown.
           // When the 'Submit' button is clicked, when ship the data to our API and reset the form back to a button
           <div>
-            <input
-              name="name"
-              type="text"
-              value={this.props.formData.name}
-              onChange={this.props.handleChange} />
-            <button onClick={() => {
+            <form onSubmit={(e) => {
+              e.preventDefault();
               this.props.handleSubmit();
               this.setState({ isAdd: false })
-            }}>submit</button>
+            }}>
+              <input
+                name="name"
+                type="text"
+                value={this.props.formData.name}
+                onChange={this.props.handleChange} />
+              <button>submit</button>
+            </form>
           </div>
           :
           <button onClick={() => {
