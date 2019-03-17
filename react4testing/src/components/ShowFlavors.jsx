@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+// Simple functional component to show flavors
 const ShowFlavors = (props) => {
   return (
     <div>

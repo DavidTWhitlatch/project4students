@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// Since this component is going to have a form, We make it a class component (or "controlled component")
+// Very similar to the login form minus the link to the register component
+// We could have made this more dry recycling the same login form and passing is different strings and onSubmit functions.
 class Register extends Component {
   constructor(props) {
     super(props);
