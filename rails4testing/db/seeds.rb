@@ -6,10 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' },, { name: 'Lord of the Rings' },])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Flavor.create!([
-                 { name: 'sour' },
-                 { name: 'sweet' },
-                 { name: 'umami' },
-                 { name: 'bitter' },
-                 { name: 'salty' }
-               ])
+sour = Flavor.create!(name: 'sour')
+sweet = Flavor.create!(name: 'sweet')
+umami = Flavor.create!(name: 'umami')
+bitter = Flavor.create!(name: 'bitter')
+salty = Flavor.create!(name: 'salty')
+
+Food.create!(name: 'pizza', flavors: [sweet, umami, salty])
+Food.create!(name: 'taco', flavors: [sweet, umami, salty, sour])
+Food.create!(name: 'sushi', flavors: [umami, salty])
