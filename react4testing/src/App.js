@@ -3,11 +3,11 @@ import { Route, Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 // jwt-decode lets us decode json web token and access the data in them
 import decode from 'jwt-decode';
-import Login from './components/Login'
-import Register from './components/Register'
-import ShowFood from './components/ShowFood'
-import FoodItem from './components/FoodItem'
-import ShowFlavors from './components/ShowFlavors'
+import Login from './components/Login';
+import Register from './components/Register';
+import ShowFood from './components/ShowFood';
+import FoodItem from './components/FoodItem';
+import ShowFlavors from './components/ShowFlavors';
 // After building the backend, we can make all of our API calls. Then import them here
 import {
   loginUser,
@@ -35,7 +35,7 @@ class App extends Component {
       },
       selectedFlavor: '', // Form data for adding a flavor to a food
       authFormData: {
-        username: "",
+        email: "",
         password: ""
       }
     }
@@ -147,11 +147,12 @@ class App extends Component {
   // Function to login a user
   // we set the user data in state and the JWT in local storage
   async handleLogin() {
-    const userData = await loginUser(this.state.authFormData);
+    const token = await loginUser(this.state.authFormData);
+    const userData = decode(token.jwt);
     this.setState({
-      currentUser: userData.user
+      currentUser: userData
     })
-    localStorage.setItem("jwt", userData.token)
+    localStorage.setItem("jwt", token.jwt)
   }
 
   // Function to register a user
@@ -216,10 +217,12 @@ class App extends Component {
             <div>
               {/* This is a greeting to the user if there user info has been set in state.
               We use the guard operator to check '&&' */}
-              <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>logout</button></h3>
+              <h3>Hi {this.state.currentUser && this.state.currentUser.email}<button onClick={this.handleLogout}>logout</button></h3>
               <Link to="/food">View All Food</Link>
               &nbsp;
               <Link to="/flavors">View All Flavors</Link>
+              &nbsp;
+              <Link to="/drop">Drop</Link>
               <hr />
             </div>
             :
