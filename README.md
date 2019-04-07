@@ -1,6 +1,6 @@
 # Final project prompt
 
-![meme](https://media.giphy.com/media/3o7TKJG8p39T1hJFLO/source.gif)
+![meme](https://media0.giphy.com/media/3o7TKJG8p39T1hJFLO/giphy.gif)
 
 We are back! with your favorite TasteVille app (not to be confused with flavortown) 
 
