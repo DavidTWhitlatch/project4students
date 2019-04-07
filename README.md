@@ -1,4 +1,4 @@
-# Final project prompt
+# Many to many Example
 
 ![meme](https://media0.giphy.com/media/3o7TKJG8p39T1hJFLO/giphy.gif)
 
