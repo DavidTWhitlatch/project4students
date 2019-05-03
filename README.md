@@ -45,7 +45,7 @@ We also have a whole new rails with many to many for the backend.
   rails g migration CreateJoinTableFoodsFlavors foods flavors
   ```
   The migration file that is created should look like this by default and does not need to be edited:
-  ```
+  ```ruby
   class CreateJoinTableFoodsFlavors < ActiveRecord::Migration[5.2]
     def change
     create_join_table :foods, :flavors do |t|
@@ -59,13 +59,13 @@ We also have a whole new rails with many to many for the backend.
   Lets do a quick `rails db:migraine` to migrate that file.
 
   Next we need to add the associations in our models.
-  ```
+  ```ruby
   class Flavor < ApplicationRecord
     has_and_belongs_to_many :foods
   end
   ```
   and
-  ```
+  ```ruby
   class Food < ApplicationRecord
     has_and_belongs_to_many :flavors
   end
@@ -73,10 +73,10 @@ We also have a whole new rails with many to many for the backend.
 
   ### Defining our desired controller behavior
   For our particular app, we want to be able to add flavors to foods. We did that at a '/foods/:food_id/flavors/:id' endpoint. lets set that up in our routes real quick
-  ```
+  ```ruby
   Rails.application.routes.draw do
     resources :foods do
-    resources :flavors
+      resources :flavors
     end
     resources :flavors
   end
@@ -85,7 +85,7 @@ We also have a whole new rails with many to many for the backend.
   Perfect!
   Now we can see if we type `rails routes` into our console we a 'food_flavors' route. We also see that PUT is handled by the flavors controller with the update action. Lets go modify that to add our flavor to our food
 
-  ```
+  ```ruby
   def update
   # First we check to see if a food_id was passed in the endpoint
     if params[:food_id]
@@ -114,6 +114,3 @@ We also have a whole new rails with many to many for the backend.
   ```
 
   ¡Todo es bien!
-
-  ## Other changes:
-  I did auth. don't try at home without a repo.
