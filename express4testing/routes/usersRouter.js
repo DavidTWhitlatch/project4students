@@ -9,33 +9,33 @@ const usersRouter = Router();
 // WE DO NOT WANT TO INCLUDE THE PASSWORD OR HASH/DIGEST!
 // The less info on the front about the users password, the better
 const buildAuthResponse = (user) => {
-    const token_data = {
-      id: user.id,
-      username: user.username
-    };
+  const tokenData = {
+    id: user.id,
+    username: user.username,
+  };
 
-    const token = genToken(token_data);
-    const userData = {
-      username: user.username,
-      id: user.id,
-    };
+  const token = genToken(tokenData);
+  const userData = {
+    username: user.username,
+    id: user.id,
+  };
 
   return {
     user: userData,
     token,
   };
-}
+};
 
 // Here we define the user register
 // We immediately hash the password and never use the original password again
 // Then we add the new user and return our pre-defined response
 usersRouter.post('/register', async (req, res) => {
   try {
-    const password_digest = await hashPassword(req.body.password);
+    const pwd = await hashPassword(req.body.password);
 
     const user = await User.create({
       username: req.body.username,
-      password_digest
+      password_digest: pwd,
     });
 
     const respData = buildAuthResponse(user);
@@ -55,13 +55,12 @@ usersRouter.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        username: req.body.username
-      }
+        username: req.body.username,
+      },
     });
 
     if (await checkPassword(req.body.password, user.password_digest)) {
       const respData = buildAuthResponse(user);
-
 
       res.json({ ...respData });
     } else {
@@ -71,6 +70,6 @@ usersRouter.post('/login', async (req, res) => {
     console.log(e);
     res.status(500).send(e.message);
   }
-})
+});
 
 module.exports = usersRouter;
