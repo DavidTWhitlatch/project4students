@@ -39,32 +39,17 @@ class App extends Component {
         password: ""
       }
     }
-    this.handleLoginButton = this.handleLoginButton.bind(this)
-    this.getFood = this.getFood.bind(this)
-    this.getFoodItem = this.getFoodItem.bind(this)
-    this.addFood = this.addFood.bind(this)
-    this.updateFood = this.updateFood.bind(this)
-    this.deleteFood = this.deleteFood.bind(this)
-    this.getFlavors = this.getFlavors.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
-    this.handleRegister = this.handleRegister.bind(this)
-    this.handleLogout = this.handleLogout.bind(this)
-    this.authHandleChange = this.authHandleChange.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.setFoodForm = this.setFoodForm.bind(this)
-    this.flavorForm = this.flavorForm.bind(this)
-    this.addFlavorToFood = this.addFlavorToFood.bind(this)
   }
 
   // onClick function to redirect to the login form 
-  handleLoginButton() {
+  handleLoginButton = () => {
     this.props.history.push("/login")
   }
 
   // On page load, we grab all the foods and flavors
   // We also check local storage to see if the browser has a saved token
   // If so, we decode the token to get the user data and save it in state.
-  componentDidMount() {
+  componentDidMount = () => {
     this.getFood()
     this.getFlavors();
     const checkUser = localStorage.getItem("jwt");
@@ -77,13 +62,13 @@ class App extends Component {
   }
 
   // Function to get all food from our API
-  async getFood() {
+  getFood = async () => {
     const food = await showFood();
     this.setState({ food })
   }
 
   // Function to get a single food item from our API
-  async getFoodItem(id) {
+  getFoodItem = async (id) => {
     const foodItem = await showFoodItem(id);
     this.setState({ foodItem })
   }
@@ -91,7 +76,7 @@ class App extends Component {
 
   // Function to create a new food in our API
   // We take the response and add it to our Food array in state
-  async addFood() {
+  addFood = async () => {
     const newFood = await postFood(this.state.formData)
     this.setState(prevState => ({
       food: [...prevState.food, newFood],
@@ -105,7 +90,7 @@ class App extends Component {
   // We find the index of the updated food in state
   // We build a new array, replacing the old food item with the new one
   // Then we setState with the new food array
-  async updateFood(foodItem) {
+  updateFood = async (foodItem) => {
     const updatedFoodItem = await putFood(this.state.formData, foodItem.id);
     const index = this.state.food.indexOf(foodItem);
     const foodArray = this.state.food
@@ -117,7 +102,7 @@ class App extends Component {
 
   // Function to delete a food item
   // We then build a new food array with the delete item spliced out
-  async deleteFood(foodItem) {
+  deleteFood = async (foodItem) => {
     await destroyFood(foodItem.id);
     const index = this.state.food.indexOf(foodItem);
     const foodArray = this.state.food
@@ -128,7 +113,7 @@ class App extends Component {
   }
 
   // Function to get all flavors
-  async getFlavors() {
+  getFlavors = async () => {
     const flavors = await showFlavors();
     this.setState({ flavors })
   }
@@ -136,7 +121,7 @@ class App extends Component {
   // Function to add a flavor to a food
   // We first find the flavor using by comparing the name from the flavor form data and the name in the flavors array
   // Then we make our API call using that flavors id and the id of the food argument passed to this function
-  async addFlavorToFood(foodItem) {
+  addFlavorToFood = async (foodItem) => {
     const newFlavor = this.state.flavors.find(flavor => flavor.name === this.state.selectedFlavor);
     const newFoodItem = await putFoodFlavor(foodItem.id, newFlavor.id);
     this.setState({
@@ -146,7 +131,7 @@ class App extends Component {
 
   // Function to login a user
   // we set the user data in state and the JWT in local storage
-  async handleLogin() {
+  handleLogin = async () => {
     const token = await loginUser(this.state.authFormData);
     const userData = decode(token.jwt)
     this.setState({
@@ -157,7 +142,7 @@ class App extends Component {
 
   // Function to register a user
   // After register, we just call the login function with the same data
-  async handleRegister(e) {
+  handleRegister = async (e) => {
     e.preventDefault();
     await registerUser(this.state.authFormData);
     this.handleLogin();
@@ -165,7 +150,7 @@ class App extends Component {
 
   // Function to logout user
   // We delete the token from local storage and set the current user in state back to null
-  handleLogout() {
+  handleLogout = () => {
     localStorage.removeItem("jwt");
     this.setState({
       currentUser: null
@@ -173,7 +158,7 @@ class App extends Component {
   }
 
   // Handle change function for the auth forms
-  authHandleChange(e) {
+  authHandleChange = (e) => {
     const { name, value } = e.target;
     this.setState(prevState => ({
       authFormData: {
@@ -184,13 +169,13 @@ class App extends Component {
   }
 
   // handle change function for our create food form
-  handleChange(e) {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ formData: { [name]: value } });
   }
 
   // Function to set the form data for the update food form
-  setFoodForm(food) {
+  setFoodForm = (food) => {
     this.setState({
       formData: {
         name: food.name
@@ -199,7 +184,7 @@ class App extends Component {
   }
 
   //handle change for the flavor drop down form
-  flavorForm(e) {
+  flavorForm = (e) => {
     this.setState({
       selectedFlavor: e.target.value
     })
