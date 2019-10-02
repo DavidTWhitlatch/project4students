@@ -8,8 +8,8 @@ export const loginUser = async (loginData) => {
   return resp.data
 }
 
-export const registerUser = async (resgisterData) => {
-  const resp = await api.post(`/users`, { user: resgisterData });
+export const registerUser = async (registerData) => {
+  const resp = await api.post(`/users`, { user: registerData });
   return resp.data;
 }
 
